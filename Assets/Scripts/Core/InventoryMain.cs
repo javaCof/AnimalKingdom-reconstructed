@@ -54,8 +54,6 @@ public class InventoryMain : MonoBehaviour
 
     private void Start()
     {
-        Inventory.instance.AddConsumable(new ConsumableInfo(20001, 100));
-
         if (IS_DEBUG)
         {
             Debug.Log("InventoryMain : Debug mode");

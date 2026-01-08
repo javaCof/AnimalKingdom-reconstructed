@@ -102,6 +102,8 @@ public sealed class Inventory
         item.uid = Guid.NewGuid().ToString();
         item.is_visible = isVisible;
         equipments.Add(item);
+
+        DataManager.instance.SaveGame();
     }
 
     public void AddItem(PassiveSkillInfo item, bool isVisible = true)
@@ -109,6 +111,8 @@ public sealed class Inventory
         item.uid = Guid.NewGuid().ToString();
         item.is_visible = isVisible;
         passiveSkills.Add(item);
+
+        DataManager.instance.SaveGame();
     }
 
     public void AddItem(ActiveSkillInfo item, bool isVisible = true)
@@ -116,6 +120,8 @@ public sealed class Inventory
         item.uid = Guid.NewGuid().ToString();
         item.is_visible = isVisible;
         activeSkills.Add(item);
+
+        DataManager.instance.SaveGame();
     }
 
     public void AddCurrency(int id, int amount)
@@ -132,6 +138,8 @@ public sealed class Inventory
                 DataManager.instance.currencyCarrot += amount;
                 break;
         }
+
+        DataManager.instance.SaveGame();
     }
 
     public void AddConsumable(ConsumableInfo item, bool isVisible = true)
@@ -148,6 +156,8 @@ public sealed class Inventory
 
         if (item.item_id == 20001)
             DataManager.instance.itemExpPotion += item.amount;
+
+        DataManager.instance.SaveGame();
     }
 
     public void UseConsumable(ConsumableInfo consumable, int count)
@@ -159,6 +169,7 @@ public sealed class Inventory
             if (consumable.item_id == 20001)
                 DataManager.instance.itemExpPotion -= count;
         }
+        DataManager.instance.SaveGame();
     }
 
     public void UseExpPotion(int count)
@@ -196,15 +207,18 @@ public sealed class Inventory
     public void RemoveItem(EquipmentInfo equipment)
     {
         this.equipments.Remove(equipment);
+        DataManager.instance.SaveGame();
     }
 
     public void RemoveItem(PassiveSkillInfo skill)
     {
         this.passiveSkills.Remove(skill);
+        DataManager.instance.SaveGame();
     }
 
     public void RemoveItem(ActiveSkillInfo skill)
     {
         this.activeSkills.Remove(skill);
+        DataManager.instance.SaveGame();
     }
 }
