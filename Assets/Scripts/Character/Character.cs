@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+/// <summary>
+/// Runtime character domain model.
+/// Handles character stats, equipment, skills, and level progression.
+/// </summary>
 public class Character
 {
     public static readonly int MAX_LEVEL = 80;
 
+    //Basic character identity
     public int Idx { get; private set; }
     public string Uid { get; private set; }
     public string Name { get; private set; }
+
+    //Level progression
     public int Level { get; private set; }
     public int Exp { get; private set; }
     public int RequiredExp { get; private set; }
+
+    //Combat stats
     public int MaxHP { get; private set; }
     public float HP { get; set; }
     public int ATK { get; private set; }
@@ -32,7 +41,7 @@ public class Character
     public GameObject model;
     public static int characterIdx = 0;
 
-    /// <summary>테스트용 캐릭터 생성 코드</summary>
+    //Creates a temporary character instance for testing purposes
     public Character(string name, int level, int tribeId, int weaponId, eElementType element, int skillId)
     {
         string uid = System.Guid.NewGuid().ToString();
@@ -58,7 +67,7 @@ public class Character
         Init(uid, name, level, 0, tribe, job, weapon, null, passiveSkill, activeSkills);
     }
 
-    /// <summary>캐릭터 최초생성</summary>
+    //Character constructor (New Create)
     public Character(string name, int level, int exp, int tribeId, int jobId, EquipmentInfo eqWeapon, EquipmentInfo eqArmor, ActiveSkillInfo eqSkill)
     {
         string uid = System.Guid.NewGuid().ToString();
@@ -85,7 +94,7 @@ public class Character
         Init(uid, name, level, exp, tribe, job, eqWeapon, eqArmor, passiveSkill, activeSkills);
     }
 
-    /// <summary>캐릭터정보 로드 (Characterinfo -> Character)</summary>
+    //Character constructor (Load data)
     public Character(Characterinfo info)
     {
         TribeData tribe = DataManager.instance.GetDicTribeDatas()[info.tribe_id];
@@ -102,7 +111,7 @@ public class Character
         Init(info.uid, info.name, info.level, info.experience, tribe, job, weapon, armor, passiveSkill, activeSkills);
     }
 
-    /// <summary>캐릭터정보 저장 (Character -> Characterinfo)</summary>
+    //Convert to Characterinfo (Save)
     public Characterinfo GetInfo()
     {
         Characterinfo info = new Characterinfo();
@@ -121,7 +130,7 @@ public class Character
         return info;
     }
 
-    /// <summary>캐릭터 설정</summary>
+    //Initializes character core data and recalculates stats and skills
     public void Init(string uid, string name, int level, int exp, TribeData tribe, JobData job, EquipmentInfo eqWeapon, EquipmentInfo eqArmor, PassiveSkillInfo passiveSkill, List<ActiveSkillInfo> activeSkills)
     {
         this.Idx = characterIdx++;
@@ -141,6 +150,7 @@ public class Character
         CheckSkills();
     }
 
+    //Recalculates character stats based on level, equipment, and passive skills
     public void UpdateStat()
     {
         LevelData levelData = GetLevelData(this.Level);
@@ -193,6 +203,7 @@ public class Character
         this.activeSkills[2].owner_uid = this.Uid;
     }
 
+    //Validates active skill slot order for debugging purposes
     private void CheckSkills()
     {
         for (int i = 0; i < this.activeSkills.Count; i++)
@@ -200,6 +211,7 @@ public class Character
                 Debug.LogErrorFormat("SKILL ERROR, INCORRECT SKILL : {0}({1})", this.Name, i + 1);
     }
 
+    //Equips a weapon or armor and updates character stats accordingly
     public void Equip(EquipmentInfo equipment)
     {
         if (equipment.IsWeapon())
@@ -225,6 +237,7 @@ public class Character
         UpdateSkills();
     }
 
+    //Unequip armor (weapons cannot be unequipped)
     public void UnEquipArmor()
     {
         if (this.equipArmor != null) this.equipArmor.owner_uid = null;
@@ -233,6 +246,7 @@ public class Character
         UpdateStat();
     }
 
+    //Struct for character level/experience
     public struct LevelExp
     {
         public int level;
@@ -257,6 +271,7 @@ public class Character
         return new LevelExp(this.Level, this.Exp);
     }
 
+    //Get ExpNext(experience required for the next levelup)
     public int GetExpNext()
     {
         return GetLevelExp().expNext;
@@ -280,6 +295,7 @@ public class Character
         return new LevelExp(toLevel, expSum);
     }
 
+    //Adds experience and handles level-up logic
     public void AddExp(int exp)
     {
         if (this.Level == MAX_LEVEL) return;

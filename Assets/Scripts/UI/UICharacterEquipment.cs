@@ -4,21 +4,34 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.U2D;
 
+/// <summary>
+/// UI controller responsible for displaying and manipulating the currently equipped weapon or armor of a character.
+/// This class handles user interactions such as equip, unequip, and enforce actions, and delegates actual state changes
+/// to the Character and Equipment domain models.
+/// It does not directly manage inventory data or character stats, but reflects domain changes through UI updates.
+/// </summary>
 public class UICharacterEquipment : MonoBehaviour
 {
+    //Callback invoked when character-related data has changed
+    //(equipment enforce, unequip)
     public System.Action onCharacterChange;
+
+    /*Domain References*/
 
     private Character character;
     private EquipmentInfo equipment;
 
-    public GameObject contentsGo;
+    /*UI References*/
 
+    public GameObject contentsGo;
     public UITabs uITabs;
 
     public GameObject infoGo;
     public GameObject infoContentsGo;
+
     public Text nameText;
     public EquipmentIcon equipmentIcon;
+
     public Text enforceText;
     public Text hpText;
     public Text atkText;
@@ -38,14 +51,20 @@ public class UICharacterEquipment : MonoBehaviour
 
     public GameObject enforceGoldInfoGo;
     public Text enforceGoldText;
-    private int enforceGold;
 
     public GameObject confirmGo;
     public Button btnEnforceOK;
     public Button btnEnforceCancel;
 
+
+    /*Runtime State*/
+
+    private int enforceGold;
+
+    //Initializes UI event bindings and tab behavior
     public void Init()
     {
+        //Tab switching between weapon and armor
         this.uITabs.onTabChanged = (idx) => {
             switch (idx)
             {
@@ -58,7 +77,8 @@ public class UICharacterEquipment : MonoBehaviour
             }
         };
         this.uITabs.Init();
-        
+
+        //Button bindings
         this.btnEnforce.onClick.AddListener(() => {
             ToEnforce();
         });
@@ -76,11 +96,13 @@ public class UICharacterEquipment : MonoBehaviour
         });
     }
 
+    //Hides equipment UI contents
     public void UpdateUI()
     {
         this.contentsGo.SetActive(false);
     }
 
+    //Updates equipment UI based on the selected character
     public void UpdateUI(Character character, int subtabIdx = 0)
     {
         this.character = character;
@@ -96,6 +118,7 @@ public class UICharacterEquipment : MonoBehaviour
         }
     }
 
+    //Updates equipment UI based on the selected equipment
     public void UpdateUI(EquipmentInfo equipment)
     {
         this.equipment = equipment;

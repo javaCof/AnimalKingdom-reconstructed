@@ -4,11 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
+/// <summary>
+/// Main controller for the Character scene.
+/// Coordinates character-related UI components and connects user interactions to the Character domain model.
+/// </summary>
 public class CharacterMain : MonoBehaviour
 {
+    //Debug flag for standalone testing without scene transition flow
     [HideInInspector]
     public bool IS_DEBUG = true;
 
+    //Scene initialization data passed when entering the Character scene
+    //Used to restore selected character and UI tab state
     public struct SceneInfo
     {
         public Character character;
@@ -24,6 +31,8 @@ public class CharacterMain : MonoBehaviour
     }
     public static SceneInfo sceneInfo;
 
+    /*UI References*/
+
     public GameObject characterIconPrefab;
 
     public Button btnBack;
@@ -31,22 +40,24 @@ public class CharacterMain : MonoBehaviour
     public UICharacterLevel uICharacterLevel;
     public UICharacterEquipment uICharacterEquipment;
     public UICharacterSkill uICharacterSkill;
+    public UITabs uITabs;
 
     public Transform listGrid;
     public Transform modelPos;
     public Button btnSetRep;
     public Image repIcon;
 
+    /*Runtime State*/
+
     private List<Character> characterList;
     private Dictionary<string, GameObject> dicCharacterIcons;
     private Character curCharacter;
     private GameObject curModel;
-
-    public UITabs uITabs;
     private int curTabIdx;
 
     private void Start()
     {
+        //Debug-only initialization for isolated testing
         if (IS_DEBUG)
         {
             Debug.Log("CharacterMain : Debug mode");
@@ -64,6 +75,7 @@ public class CharacterMain : MonoBehaviour
         SoundManager.SetVolumeMusic(App.instance.backgroundVolume);
     }
 
+    //Initializes character scene with default scene information
     public void Init()
     {
         /*Back 버튼 설정*/
@@ -74,6 +86,7 @@ public class CharacterMain : MonoBehaviour
         Init(new SceneInfo(null, 0, -1));
     }
 
+    //Initializes character scene with explicit back-navigation target
     public void Init(SceneInfo sceneInfo, App.eSceneType backScene)
     {
         /*Back 버튼 설정*/
@@ -92,6 +105,7 @@ public class CharacterMain : MonoBehaviour
         Init(sceneInfo);
     }
 
+    //Core initialization routine for UI, character list, and tab state
     private void Init(SceneInfo sceneInfo)
     {
         /*모델 설정*/

@@ -3,18 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// Inventory domain model responsible for managing item storage and lookup across the game.
+/// Implemented as a singleton to provide global access across gameplay systems.
+/// This class is independent from UI and presentation logic.
+/// </summary>
 public sealed class Inventory
 {
+    //Singleton instance for global inventory access
     public static readonly Inventory instance = new Inventory();
 
+    //Item storage collections (runtime state)
     public List<ConsumableInfo> consumables = new List<ConsumableInfo>();
     public List<EquipmentInfo> equipments = new List<EquipmentInfo>();
     public List<PassiveSkillInfo> passiveSkills = new List<PassiveSkillInfo>();
     public List<ActiveSkillInfo> activeSkills = new List<ActiveSkillInfo>();
 
+    //Private constructor to enforce singleton pattern
     private Inventory() { }
 
-    /// <summary>인벤토리 로드 (InventoryInfo -> Inventory)</summary>
+    //Initializes inventory state from saved data.
+    //Converts InventoryInfo into runtime inventory items.
     public void Init(InventoryInfo info)
     {
         this.consumables.Clear();
@@ -45,7 +54,7 @@ public sealed class Inventory
             equipment.UpdateSkills();
     }
 
-    /// <summary>인벤토리 저장 (Inventory -> InventoryInfo)</summary>
+    //Converts current inventory state into serializable InventoryInfo for save persistence
     public InventoryInfo GetInfo()
     {
         InventoryInfo info = new InventoryInfo();
@@ -63,6 +72,7 @@ public sealed class Inventory
         return info;
     }
 
+    //Creates a serializable inventory item data from a runtime item instance
     private InventoryItemInfo GetInfo(InventoryItemInfo data)
     {
         InventoryItemInfo info = new InventoryItemInfo();
@@ -80,6 +90,7 @@ public sealed class Inventory
         return info;
     }
 
+    //Creates a runtime inventory item instance from saved item data
     private InventoryItemInfo GetData(InventoryItemInfo info)
     {
         switch (info.type)
@@ -97,6 +108,7 @@ public sealed class Inventory
         }
     }
 
+    //Adds an equipment item to the inventory
     public void AddItem(EquipmentInfo item, bool isVisible = true)
     {
         item.uid = Guid.NewGuid().ToString();
@@ -106,6 +118,7 @@ public sealed class Inventory
         DataManager.instance.SaveGame();
     }
 
+    //Adds a passive skill item to the inventory
     public void AddItem(PassiveSkillInfo item, bool isVisible = true)
     {
         item.uid = Guid.NewGuid().ToString();
@@ -115,6 +128,7 @@ public sealed class Inventory
         DataManager.instance.SaveGame();
     }
 
+    //Adds a active skill item to the inventory
     public void AddItem(ActiveSkillInfo item, bool isVisible = true)
     {
         item.uid = Guid.NewGuid().ToString();
@@ -124,6 +138,7 @@ public sealed class Inventory
         DataManager.instance.SaveGame();
     }
 
+    //Adds currency to the inventory
     public void AddCurrency(int id, int amount)
     {
         switch (id)
@@ -142,6 +157,7 @@ public sealed class Inventory
         DataManager.instance.SaveGame();
     }
 
+    //Adds a consumable item to the inventory
     public void AddConsumable(ConsumableInfo item, bool isVisible = true)
     {
         ConsumableInfo oldItem = consumables.Find(x => x.item_id == item.item_id);
@@ -160,6 +176,7 @@ public sealed class Inventory
         DataManager.instance.SaveGame();
     }
 
+    //Consumes a specified amount of a consumable item
     public void UseConsumable(ConsumableInfo consumable, int count)
     {
         if (consumable.amount >= count)
@@ -172,31 +189,37 @@ public sealed class Inventory
         DataManager.instance.SaveGame();
     }
 
+    //Convenience method for using experience potions
     public void UseExpPotion(int count)
     {
         UseConsumable(FindConsumable(20001), count);
     }
 
+    //Finds a consumable item by item ID
     public ConsumableInfo FindConsumable(int id)
     {
         return consumables.Find(x => x.item_id == id);
     }
 
+    //Finds an equipment item by unique identifier
     public EquipmentInfo FindEquipment(string uid)
     {
         return equipments.Find(x => x.uid == uid);
     }
 
+    //Finds a passive skill item by unique identifier
     public PassiveSkillInfo FindPassiveSkill(string uid)
     {
         return passiveSkills.Find(x => x.uid == uid);
     }
 
+    //Finds a active skill item by unique identifier
     public ActiveSkillInfo FindActiveSkill(string uid)
     {
         return activeSkills.Find(x => x.uid == uid);
     }
 
+    //Removes an inventory item based on its runtime type
     public void RemoveItem(InventoryItemInfo item)
     {
         if (item is EquipmentInfo) RemoveItem(item as EquipmentInfo);
@@ -204,18 +227,21 @@ public sealed class Inventory
         else if (item is ActiveSkillInfo) RemoveItem(item as ActiveSkillInfo);
     }
 
+    //Removes an equipment item from the inventory
     public void RemoveItem(EquipmentInfo equipment)
     {
         this.equipments.Remove(equipment);
         DataManager.instance.SaveGame();
     }
 
+    //Removes a passive skill item from the inventory
     public void RemoveItem(PassiveSkillInfo skill)
     {
         this.passiveSkills.Remove(skill);
         DataManager.instance.SaveGame();
     }
 
+    //Removes a active skill item from the inventory
     public void RemoveItem(ActiveSkillInfo skill)
     {
         this.activeSkills.Remove(skill);
