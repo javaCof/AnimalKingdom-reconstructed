@@ -315,7 +315,6 @@ public class Character
     private void OnLevelUp()
     {
         UpdateStat();
-        //Firebase.Analytics.FirebaseAnalytics.LogEvent("level_up", "Level", this.Level);
     }
 
     public void UpdateModel(GameObject model)
