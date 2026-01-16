@@ -1,6 +1,6 @@
 # AnimalKingdom-reconstructed
 
-Portfolio repository reconstructed from an existing project
+Portfolio repository reconstructed from a released Unity game project.
 
 ## Overview
 
@@ -13,6 +13,7 @@ system design and code structure.
 
 This project is a reconstructed portfolio sample extracted from the Unity game project 'Animal Kingdom'.
 Animal Kingdom is a character-centric turn-based RPG where players collect and develop characters through leveling, equipment, and skills.
+This repository focuses on the character management flow as a representative gameplay system.
 
 ## Screenshots
 
@@ -23,13 +24,13 @@ Animal Kingdom is a character-centric turn-based RPG where players collect and d
 
 ### Equipment Management & Enhancement
 <p align="left">
-  <img src="assets/screenshots/equipment_management.png" width="45%"/>
-  <img src="assets/screenshots/equipment_enforce.png" width="45%"/>
+  <img src="Assets/screenshots/equipment_management.png" width="45%"/>
+  <img src="Assets/screenshots/equipment_enforce.png" width="45%"/>
 </p>
 
 ### Equipment Change (Inventory-Based Equipment Selection)
 <p align="left">
-  <img src="assets/screenshots/equipment_change.png" width="70%"/>
+  <img src="Assets/screenshots/equipment_change.png" width="70%"/>
 </p>
 
 ## Sample Scope
@@ -55,10 +56,8 @@ and documented to highlight design intent and implementation details.
 
 ## Code Overview
 
-This repository contains a curated subset of scripts extracted from the original project,
-focused on the character management flow.  
-Each script was selected to clearly represent its responsibility within the system and 
-to demonstrate the interaction between domain models and UI controller logic.
+This repository contains a curated subset of scripts focused on the character management flow,
+highlighting the separation between domain models and UI controller logic.
 
 ### Script Structure
 
@@ -114,25 +113,18 @@ UI controller scripts coordinate player interactions and screen-level flow.
 UI controllers do not own gameplay rules; instead, they invoke domain logic
 and update visual state based on the results.
 
-## Build & Execution
+## Build
 
-This repository is not intended to be built or run directly as a full Unity project.
-It contains only a curated subset of scripts extracted for portfolio purposes.
-
-To provide context for how the character management flow operates in-game,
+To demonstrate how the character management flow operates in-game,
 a playable Android APK build has been generated from the original project.
-
-### Android Build
 
 - Platform: Android
 - Build type: Release
-- Target: Real device testing
+- Distribution: GitHub Releases
+- Build base commit: v1.0-apk
 
-The APK allows reviewers to experience the complete character management flow,
-including character selection, equipment handling, and stat updates,
-as implemented in the original project.
-
-The playable APK is available via GitHub Releases.
+¢º Download APK  
+https://github.com/javaCof/AnimalKingdom-reconstructed/releases/tag/v1.0-portfolio
 
 ## Notes for Reviewers
 
