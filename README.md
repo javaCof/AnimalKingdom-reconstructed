@@ -5,13 +5,10 @@ Portfolio repository reconstructed from a released Unity game project.
 ## Overview
 
 This repository is a reconstructed portfolio project based on an existing Unity project.
-Only the parts I personally contributed to have been extracted and reorganized.
+Only the parts I personally contributed to have been extracted and reorganized.  
+
 The purpose of this repository is not to provide a fully playable build, but to showcase
 system design and code structure.
-
-이 레포지토리는 기존 Unity 프로젝트를 기반으로 재구성한 포트폴리오 프로젝트입니다.
-제가 직접 기여한 부분만 선별하여 정리했습니다.
-완전히 실행 가능한 빌드 제공이 아니라, 시스템 설계와 코드 구조를 보여주는 데 목적이 있습니다.
 
 **Quick Links**
 
@@ -125,7 +122,7 @@ and update visual state based on the results.
 
 ## Build
 
-To demonstrate how the character management flow operates in-game,
+To demonstrate how the character management flow operates in-game, 
 a playable Android APK build has been generated from the original project.
 
 - Platform: Android
@@ -133,19 +130,18 @@ a playable Android APK build has been generated from the original project.
 - Distribution: GitHub Releases
 - Build base commit: v1.0-apk
 
-Download APK  
-https://github.com/javaCof/AnimalKingdom-reconstructed/releases/tag/v1.0-portfolio
+[Download APK](https://github.com/javaCof/AnimalKingdom-reconstructed/releases/tag/v1.0-portfolio)
 
 ## External Links
 
-**Gameplay Video**  
-https://www.youtube.com/watch?v=cTpYT78VaFI
-
-**Portfolio**  
-...
+[Gameplay Video](https://www.youtube.com/watch?v=cTpYT78VaFI)
 
 ## Notes for Reviewers
 
 - This repository focuses on a specific gameplay flow rather than a complete project.
 - Some systems (combat, progression balance, content data) are intentionally excluded.
 - Code is organized to emphasize responsibility boundaries rather than runtime completeness.
+
+## Contact
+
+- Email: javacoffee0930@gmail.com
