@@ -10,12 +10,6 @@ Only the parts I personally contributed to have been extracted and reorganized.
 The purpose of this repository is not to provide a fully playable build, but to showcase
 system design and code structure.
 
-**Quick Links**
-
-[Code Overview](#code-overview)  
-[Gameplay Video & Portfolio](#external-links)  
-[Download APK](#build)
-
 ## Game Introduction
 
 This project is a reconstructed portfolio sample extracted from the Unity game project 'Animal Kingdom'.
